@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard | QuizVerse
+{% endblock %}
+
+{% block content %}
+
+<div class="admin-header mb-4">
+
+    <div>
+
+        <span class="hero-badge">
+            ⚙ ADMINISTRATION
+        </span>
+
+        <h1 class="fw-bold mt-3">
+            QuizVerse Control Center
+        </h1>
+
+        <p class="text-muted">
+            Manage students, questions and assessment performance.
+        </p>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('add_question') }}"
+        class="btn btn-primary"
+    >
+        + Add Question
+    </a>
+
+</div>
+
+
+
+<div class="row g-4 mb-4">
+
+
+    <div class="col-md-3">
+
+        <div class="admin-stat">
+
+            <span>
+                👨‍🎓
+            </span>
+
+            <small>
+                Students
+            </small>
+
+            <strong>
+                {{ users_count }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="admin-stat">
+
+            <span>
+                📝
+            </span>
+
+            <small>
+                Questions
+            </small>
+
+            <strong>
+                {{ questions_count }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="admin-stat">
+
+            <span>
+                🎯
+            </span>
+
+            <small>
+                Attempts
+            </small>
+
+            <strong>
+                {{ attempts_count }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="admin-stat">
+
+            <span>
+                📊
+            </span>
+
+            <small>
+                Average Score
+            </small>
+
+            <strong>
+                {{ average_result }}%
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+    <div class="card-body p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <span class="section-label">
+                    RECENT ACTIVITY
+                </span>
+
+                <h3 class="fw-bold mt-2">
+                    Recent Assessments
+                </h3>
+
+            </div>
+
+            <a
+                href="{{ url_for('questions') }}"
+                class="btn btn-outline-primary"
+            >
+                Manage Questions
+            </a>
+
+        </div>
+
+
+        {% if recent_results %}
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Domain
+                        </th>
+
+                        <th>
+                            Difficulty
+                        </th>
+
+                        <th>
+                            Score
+                        </th>
+
+                        <th>
+                            Percentage
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for result in recent_results %}
+
+                    <tr>
+
+                        <td>
+                            {{ result.username }}
+                        </td>
+
+                        <td>
+                            {{ result.category }}
+                        </td>
+
+                        <td>
+                            {{ result.difficulty }}
+                        </td>
+
+                        <td>
+                            {{ result.score }}/{{ result.total }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ result.percentage }}%
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ result.submitted_at }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="text-muted text-center py-4">
+            No assessment activity yet.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

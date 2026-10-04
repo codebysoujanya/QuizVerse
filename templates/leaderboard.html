@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}
+Leaderboard | QuizVerse
+{% endblock %}
+
+{% block content %}
+
+<section class="text-center mb-5">
+
+    <span class="hero-badge">
+        🏆 QUIZVERSE LEADERBOARD
+    </span>
+
+    <h1 class="fw-bold mt-3">
+        Top Learners
+    </h1>
+
+    <p class="text-muted">
+        Practice more, earn XP and climb the leaderboard.
+    </p>
+
+</section>
+
+
+<div class="dashboard-card">
+
+    <div class="card-body p-4">
+
+        {% if leaders %}
+
+        <div class="table-responsive">
+
+            <table class="table leaderboard-table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Rank
+                        </th>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            XP
+                        </th>
+
+                        <th>
+                            Best Score
+                        </th>
+
+                        <th>
+                            Average
+                        </th>
+
+                        <th>
+                            Attempts
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for leader in leaders %}
+
+                    <tr>
+
+                        <td>
+
+                            {% if loop.index == 1 %}
+                                🥇
+                            {% elif loop.index == 2 %}
+                                🥈
+                            {% elif loop.index == 3 %}
+                                🥉
+                            {% else %}
+                                #{{ loop.index }}
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ leader.username }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="xp-pill">
+                                ⭐ {{ leader.total_xp or 0 }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            {{ leader.best_percentage|round(1) }}%
+                        </td>
+
+
+                        <td>
+                            {{ leader.average_percentage|round(1) }}%
+                        </td>
+
+
+                        <td>
+                            {{ leader.attempts }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-history">
+
+            <div class="empty-history-icon">
+                🏆
+            </div>
+
+            <h5>
+                Leaderboard is waiting for you
+            </h5>
+
+            <p class="text-muted">
+                Complete an assessment to appear here.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

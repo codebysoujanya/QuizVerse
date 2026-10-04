@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}
+QuizVerse | Login
+{% endblock %}
+
+{% block content %}
+
+<section class="login-page py-5">
+
+```
+<div class="row justify-content-center align-items-center">
+
+    <!-- LOGIN CARD -->
+    <div class="col-md-8 col-lg-5">
+
+        <div class="card border-0 shadow-lg login-card">
+
+            <div class="card-body p-4 p-md-5">
+
+                <!-- HEADER -->
+                <div class="text-center mb-4">
+
+                    <div class="login-icon">
+                        🔐
+                    </div>
+
+                    <h2 class="fw-bold mt-3">
+                        Welcome Back
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Login to continue your QuizVerse journey.
+                    </p>
+
+                </div>
+
+
+                <!-- FLASH MESSAGES -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+
+                    {% if messages %}
+
+                        {% for category, message in messages %}
+
+                            <div
+                                class="alert alert-{{ category if category in ['success','danger','warning','info'] else 'info' }} alert-dismissible fade show"
+                                role="alert"
+                            >
+                                {{ message }}
+
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"
+                                ></button>
+
+                            </div>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                {% endwith %}
+
+
+                <!-- LOGIN FORM -->
+                <form
+                    method="POST"
+                    action="{{ url_for('login') }}"
+                    autocomplete="on"
+                >
+
+                    <!-- USERNAME -->
+                    <div class="mb-3">
+
+                        <label
+                            for="username"
+                            class="form-label fw-semibold"
+                        >
+                            Username
+                        </label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                👤
+                            </span>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                required
+                                autofocus
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+                    <div class="mb-3">
+
+                        <label
+                            for="password"
+                            class="form-label fw-semibold"
+                        >
+                            Password
+                        </label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                🔒
+                            </span>
+
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                class="btn btn-outline-secondary"
+                                type="button"
+                                id="togglePassword"
+                                title="Show / Hide password"
+                            >
+                                👁️
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REMEMBER -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+
+                        <div class="form-check">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="remember"
+                                name="remember"
+                            >
+
+                            <label
+                                class="form-check-label text-muted"
+                                for="remember"
+                            >
+                                Remember me
+                            </label>
+
+                        </div>
+
+                        <span class="small text-muted">
+                            Secure Login
+                        </span>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+                    <button
+                        type="submit"
+                        class="btn btn-primary btn-lg w-100"
+                    >
+                        🔐 Login to QuizVerse
+                    </button>
+
+                </form>
+
+
+                <!-- REGISTER -->
+                <div class="text-center mt-4">
+
+                    <p class="text-muted mb-1">
+                        Don't have an account?
+                    </p>
+
+                    <a
+                        href="{{ url_for('register') }}"
+                        class="fw-bold text-decoration-none"
+                    >
+                        Create a new account →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DEMO ADMIN -->
+        <div class="text-center mt-3">
+
+            <small class="text-muted">
+                Admin access is available through the configured
+                administrator account.
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const passwordInput = document.getElementById("password");
+    const toggleButton = document.getElementById("togglePassword");
+
+    if (!passwordInput || !toggleButton) {
+        return;
+    }
+
+    toggleButton.addEventListener("click", function () {
+
+        if (passwordInput.type === "password") {
+
+            passwordInput.type = "text";
+            toggleButton.textContent = "🙈";
+
+        } else {
+
+            passwordInput.type = "password";
+            toggleButton.textContent = "👁️";
+
+        }
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

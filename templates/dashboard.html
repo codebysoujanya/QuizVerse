@@ -1,0 +1,818 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard | QuizVerse
+{% endblock %}
+
+{% block content %}
+
+<div class="quiz-dashboard">
+
+    <!-- ==========================================
+         DASHBOARD HERO
+    =========================================== -->
+
+    <section class="dashboard-hero mb-4">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <div class="hero-badge">
+                    <span>⚡</span>
+                    QUIZVERSE LEARNING DASHBOARD
+                </div>
+
+                <h1 class="dashboard-title mt-3">
+                    Welcome back,
+                    <span>{{ session.get("name") }}</span> 👋
+                </h1>
+
+                <p class="dashboard-subtitle">
+                    Keep learning, practicing and improving your
+                    technical skills one assessment at a time.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a
+                        href="{{ url_for('exam') }}"
+                        class="btn btn-primary btn-lg"
+                    >
+                        🚀 Start New Quiz
+                    </a>
+
+                    <a
+                        href="{{ url_for('leaderboard') }}"
+                        class="btn btn-outline-primary btn-lg"
+                    >
+                        🏆 Leaderboard
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4 d-none d-lg-block">
+
+                <div class="hero-illustration">
+
+                    <div class="hero-circle">
+
+                        <div class="hero-circle-inner">
+                            Q
+                        </div>
+
+                    </div>
+
+                    <div class="floating-icon icon-one">
+                        🧠
+                    </div>
+
+                    <div class="floating-icon icon-two">
+                        🏆
+                    </div>
+
+                    <div class="floating-icon icon-three">
+                        📚
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         STATISTICS
+    =========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- QUESTIONS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    📝
+                </div>
+
+                <div class="stat-content">
+
+                    <p>Question Bank</p>
+
+                    <h2>
+                        {{ questions_count }}
+                    </h2>
+
+                    <span>
+                        Available questions
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ATTEMPTS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    🎯
+                </div>
+
+                <div class="stat-content">
+
+                    <p>Attempts</p>
+
+                    <h2>
+                        {{ attempts_count }}
+                    </h2>
+
+                    <span>
+                        Completed quizzes
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BEST SCORE -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    🏆
+                </div>
+
+                <div class="stat-content">
+
+                    <p>Best Score</p>
+
+                    <h2>
+                        {{ best_percentage }}%
+                    </h2>
+
+                    <span>
+                        Personal best
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- XP -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ⭐
+                </div>
+
+                <div class="stat-content">
+
+                    <p>Total XP</p>
+
+                    <h2>
+                        {{ total_xp }}
+                    </h2>
+
+                    <span>
+                        Level {{ level }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         LEVEL PROGRESS
+    =========================================== -->
+
+    <section class="dashboard-card mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <span class="section-label">
+                        YOUR LEVEL
+                    </span>
+
+                    <h3 class="fw-bold mt-2 mb-0">
+                        Level {{ level }} 🚀
+                    </h3>
+
+                </div>
+
+
+                <div class="level-badge">
+
+                    <span>LEVEL</span>
+
+                    <strong>
+                        {{ level }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress-info mt-4">
+
+                <span>
+                    XP Progress
+                </span>
+
+                <span>
+                    {{ progress_xp }}/100 XP
+                </span>
+
+            </div>
+
+
+            <!--
+                IMPORTANT:
+                Jinja is stored in data-progress instead
+                of being directly inside the CSS style.
+            -->
+
+            <div
+                class="progress modern-progress"
+                data-progress="{{ progress_xp }}"
+            >
+
+                <div
+                    class="progress-bar"
+                    id="xpProgressBar"
+                    role="progressbar"
+                ></div>
+
+            </div>
+
+
+            <p class="text-muted small mt-3 mb-0">
+
+                Earn more XP by completing assessments.
+                Perfect scores give bonus XP.
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         QUICK PRACTICE DOMAINS
+    =========================================== -->
+
+    <section class="dashboard-card mb-4">
+
+        <div class="card-body p-4">
+
+            <span class="section-label">
+                LEARN & PRACTICE
+            </span>
+
+            <h3 class="fw-bold mt-2">
+                Choose Your Next Challenge 🚀
+            </h3>
+
+            <p class="text-muted">
+                Select a technical domain and start practicing.
+            </p>
+
+
+            <div class="row g-3 mt-2">
+
+                <!-- PYTHON -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for(
+                            'exam',
+                            domain='Python',
+                            difficulty='Easy'
+                        ) }}"
+                        class="quick-quiz-card"
+                    >
+
+                        <div class="quick-icon python">
+                            🐍
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Python
+                            </h5>
+
+                            <span>
+                                Programming
+                            </span>
+
+                        </div>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- JAVA -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for(
+                            'exam',
+                            domain='Java',
+                            difficulty='Easy'
+                        ) }}"
+                        class="quick-quiz-card"
+                    >
+
+                        <div class="quick-icon java">
+                            ☕
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Java
+                            </h5>
+
+                            <span>
+                                OOP & Programming
+                            </span>
+
+                        </div>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- DATA SCIENCE -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ url_for(
+                            'exam',
+                            domain='Data Science',
+                            difficulty='Easy'
+                        ) }}"
+                        class="quick-quiz-card"
+                    >
+
+                        <div class="quick-icon data">
+                            📊
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Data Science
+                            </h5>
+
+                            <span>
+                                Analytics & ML
+                            </span>
+
+                        </div>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         PERFORMANCE ANALYTICS
+    =========================================== -->
+
+    <section class="dashboard-card mb-4">
+
+        <div class="card-body p-4">
+
+            <span class="section-label">
+                PERFORMANCE ANALYTICS
+            </span>
+
+            <h3 class="fw-bold mt-2">
+                Your Learning Journey 📈
+            </h3>
+
+
+            <div class="performance-grid mt-4">
+
+                <div class="performance-box">
+
+                    <span class="performance-icon">
+                        🎯
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Attempts
+                        </small>
+
+                        <strong>
+                            {{ attempts_count }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="performance-box">
+
+                    <span class="performance-icon">
+                        🏆
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Best
+                        </small>
+
+                        <strong>
+                            {{ best_percentage }}%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="performance-box">
+
+                    <span class="performance-icon">
+                        📊
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Average
+                        </small>
+
+                        <strong>
+                            {{ average_percentage }}%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="performance-box">
+
+                    <span class="performance-icon">
+                        ⭐
+                    </span>
+
+                    <div>
+
+                        <small>
+                            XP
+                        </small>
+
+                        <strong>
+                            {{ total_xp }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         QUIZ HISTORY
+    =========================================== -->
+
+    <section class="dashboard-card mb-4">
+
+        <div class="card-body p-4">
+
+            <span class="section-label">
+                QUIZ HISTORY
+            </span>
+
+            <h3 class="fw-bold mt-2">
+                Recent Attempts 📝
+            </h3>
+
+
+            {% if attempts %}
+
+            <div class="table-responsive mt-4">
+
+                <table class="table quiz-history-table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Domain</th>
+                            <th>Difficulty</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>XP</th>
+                            <th>Status</th>
+                            <th>Certificate</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for attempt in attempts %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+
+                            <td>
+                                <strong>
+                                    {{ attempt.category }}
+                                </strong>
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge bg-light text-dark">
+
+                                    {{ attempt.difficulty }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{ attempt.score }}
+                                </strong>
+
+                                /{{ attempt.total }}
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{ attempt.percentage }}%
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="xp-value">
+                                    +{{ attempt.xp }} XP
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {% if attempt.percentage >= 50 %}
+
+                                <span class="status-badge passed">
+                                    ✓ Passed
+                                </span>
+
+                                {% else %}
+
+                                <span class="status-badge failed">
+                                    Needs Practice
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if attempt.percentage >= 50 %}
+
+                                <a
+                                    href="{{ url_for(
+                                        'certificate',
+                                        attempt_id=attempt.id
+                                    ) }}"
+                                    class="certificate-btn"
+                                >
+                                    🏅 PDF
+                                </a>
+
+                                {% else %}
+
+                                <span class="text-muted small">
+                                    Not available
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty-history">
+
+                <div class="empty-history-icon">
+                    📝
+                </div>
+
+                <h5>
+                    No assessments yet
+                </h5>
+
+                <p class="text-muted">
+                    Complete your first assessment to start
+                    tracking your learning progress.
+                </p>
+
+                <a
+                    href="{{ url_for('exam') }}"
+                    class="btn btn-primary"
+                >
+                    Start First Assessment
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         MOTIVATION
+    =========================================== -->
+
+    <section class="motivation-card">
+
+        <div class="motivation-content">
+
+            <span class="motivation-icon">
+                💡
+            </span>
+
+            <div>
+
+                <h4>
+                    Keep improving every day!
+                </h4>
+
+                <p>
+                    Practice consistently, review mistakes
+                    and build your technical confidence.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('exam') }}"
+            class="btn btn-light"
+        >
+            Start Learning →
+        </a>
+
+    </section>
+
+
+</div>
+
+
+<!-- ==========================================
+     DASHBOARD JAVASCRIPT
+=========================================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const progressContainer =
+        document.querySelector(".modern-progress");
+
+    const progressBar =
+        document.getElementById("xpProgressBar");
+
+
+    if (!progressContainer || !progressBar) {
+        return;
+    }
+
+
+    const progress =
+        Number(progressContainer.dataset.progress);
+
+
+    const safeProgress =
+        Math.min(
+            Math.max(progress, 0),
+            100
+        );
+
+
+    progressBar.style.width =
+        safeProgress + "%";
+
+
+    progressBar.setAttribute(
+        "aria-valuenow",
+        safeProgress
+    );
+
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,407 @@
+{% extends "base.html" %}
+
+{% block title %}
+QuizVerse | Learn. Practice. Prove.
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+
+<section class="landing-hero py-5">
+
+```
+<div class="row align-items-center g-5">
+
+    <!-- LEFT -->
+    <div class="col-lg-7">
+
+        <span class="hero-badge">
+            🚀 SMART TECHNICAL ASSESSMENT PLATFORM
+        </span>
+
+        <h1 class="landing-title mt-4">
+            Test your skills.
+            <span>Build your future.</span>
+        </h1>
+
+        <p class="landing-description mt-3">
+            QuizVerse is an interactive technical assessment platform
+            designed to help students practice, evaluate their knowledge,
+            track progress and prepare for their career.
+        </p>
+
+        <div class="d-flex gap-3 flex-wrap mt-4">
+
+            {% if session.get("username") %}
+
+                <a href="{{ url_for('exam') }}"
+                   class="btn btn-primary btn-lg px-4">
+                    🚀 Start Assessment
+                </a>
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="btn btn-outline-primary btn-lg px-4">
+                    📊 My Dashboard
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('register') }}"
+                   class="btn btn-primary btn-lg px-4">
+                    🎓 Create Account
+                </a>
+
+                <a href="{{ url_for('login') }}"
+                   class="btn btn-outline-primary btn-lg px-4">
+                    🔐 Login
+                </a>
+
+            {% endif %}
+
+        </div>
+
+        <div class="d-flex flex-wrap gap-4 mt-4 small text-muted">
+
+            <span>✓ Randomized Questions</span>
+            <span>✓ Performance Tracking</span>
+            <span>✓ XP & Achievements</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT VISUAL -->
+    <div class="col-lg-5">
+
+        <div class="landing-visual">
+
+            <div class="visual-main">
+                🧠
+            </div>
+
+            <div class="visual-card visual-one">
+                🏆 <strong>95%</strong>
+                <small>Top Score</small>
+            </div>
+
+            <div class="visual-card visual-two">
+                ⚡ <strong>+100 XP</strong>
+                <small>Achievement</small>
+            </div>
+
+            <div class="visual-card visual-three">
+                📊 <strong>Analytics</strong>
+                <small>Track Progress</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="mt-5">
+
+```
+<div class="text-center mb-4">
+
+    <span class="hero-badge">
+        ✨ WHY QUIZVERSE?
+    </span>
+
+    <h2 class="fw-bold mt-3">
+        Everything you need to improve
+    </h2>
+
+    <p class="text-muted">
+        Practice smarter and measure your technical growth.
+    </p>
+
+</div>
+
+
+<div class="row g-4">
+
+    <div class="col-md-4">
+
+        <div class="feature-card h-100">
+
+            <div class="feature-icon">
+                🎯
+            </div>
+
+            <h4 class="fw-bold">
+                Skill Assessments
+            </h4>
+
+            <p class="text-muted">
+                Practice programming, databases, web development,
+                aptitude and data science through randomized MCQs.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="feature-card h-100">
+
+            <div class="feature-icon">
+                📊
+            </div>
+
+            <h4 class="fw-bold">
+                Performance Analytics
+            </h4>
+
+            <p class="text-muted">
+                Track your scores, attempts, average performance,
+                XP and overall learning progress.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="feature-card h-100">
+
+            <div class="feature-icon">
+                🏆
+            </div>
+
+            <h4 class="fw-bold">
+                Achievements
+            </h4>
+
+            <p class="text-muted">
+                Earn XP, level up, compete with other students
+                and unlock certificates through your performance.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- DOMAINS -->
+
+<section class="mt-5">
+
+```
+<div class="text-center mb-4">
+
+    <span class="hero-badge">
+        📚 PRACTICE DOMAINS
+    </span>
+
+    <h2 class="fw-bold mt-3">
+        Explore your technical skills
+    </h2>
+
+</div>
+
+
+<div class="row g-3">
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="domain-mini-card">
+            🐍
+            <strong>Python</strong>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="domain-mini-card">
+            ☕
+            <strong>Java</strong>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="domain-mini-card">
+            🌐
+            <strong>Web</strong>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="domain-mini-card">
+            🗄️
+            <strong>Database</strong>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="domain-mini-card">
+            📈
+            <strong>Data Science</strong>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="domain-mini-card">
+            🧮
+            <strong>Aptitude</strong>
+        </div>
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- STATISTICS -->
+
+<section class="stats-strip mt-5">
+
+```
+<div>
+    <strong>{{ question_count|default(0) }}+</strong>
+    <span>Questions</span>
+</div>
+
+<div>
+    <strong>{{ user_count|default(0) }}+</strong>
+    <span>Students</span>
+</div>
+
+<div>
+    <strong>{{ attempt_count|default(0) }}+</strong>
+    <span>Assessments</span>
+</div>
+
+<div>
+    <strong>6</strong>
+    <span>Skill Domains</span>
+</div>
+```
+
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="mt-5">
+
+```
+<div class="text-center mb-4">
+
+    <span class="hero-badge">
+        ⚡ HOW IT WORKS
+    </span>
+
+    <h2 class="fw-bold mt-3">
+        Start your journey in 3 steps
+    </h2>
+
+</div>
+
+
+<div class="row g-4 text-center">
+
+    <div class="col-md-4">
+
+        <div class="feature-card h-100">
+
+            <div class="display-5 mb-3">
+                1️⃣
+            </div>
+
+            <h5 class="fw-bold">
+                Choose a Domain
+            </h5>
+
+            <p class="text-muted mb-0">
+                Select the technical subject you want to practice.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="feature-card h-100">
+
+            <div class="display-5 mb-3">
+                2️⃣
+            </div>
+
+            <h5 class="fw-bold">
+                Take the Assessment
+            </h5>
+
+            <p class="text-muted mb-0">
+                Answer randomized questions within the given time.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="feature-card h-100">
+
+            <div class="display-5 mb-3">
+                3️⃣
+            </div>
+
+            <h5 class="fw-bold">
+                Track Your Growth
+            </h5>
+
+            <p class="text-muted mb-0">
+                Review your results, earn XP and improve your skills.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta-section mt-5 text-center">
+
+```
+<h2 class="fw-bold">
+    Ready to test your knowledge?
+</h2>
+
+<p>
+    Choose a domain, select your difficulty and start learning.
+</p>
+
+<a
+    href="{{ url_for('exam') if session.get('username') else url_for('register') }}"
+    class="btn btn-light btn-lg px-5 mt-2"
+>
+    🚀 Start Your Journey
+</a>
+```
+
+</section>
+
+{% endblock %}

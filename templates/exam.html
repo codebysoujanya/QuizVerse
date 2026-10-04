@@ -1,0 +1,563 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ domain }} Assessment | QuizVerse
+{% endblock %}
+
+{% block content %}
+
+<div class="exam-page">
+
+    <!-- =========================
+         EXAM HEADER
+    ========================== -->
+    <div class="exam-header">
+
+        <div class="exam-heading">
+
+            <span class="section-label">
+                <span class="live-dot"></span>
+                LIVE ASSESSMENT
+            </span>
+
+            <h2>{{ domain }}</h2>
+
+            <div class="exam-meta">
+
+                <span class="exam-badge primary">
+                    {{ difficulty }}
+                </span>
+
+                <span class="exam-badge">
+                    {{ questions|length }} Questions
+                </span>
+
+                <span class="exam-badge">
+                    <i class="bi bi-lightning-charge"></i>
+                    Skill Assessment
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- TIMER -->
+        <div class="timer-card">
+
+            <div class="timer-icon">
+                <i class="bi bi-stopwatch"></i>
+            </div>
+
+            <div>
+                <small>TIME REMAINING</small>
+
+                <strong id="timer">
+                    Loading...
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PROGRESS CARD
+    ========================== -->
+    <div class="exam-progress-card">
+
+        <div class="progress-info">
+
+            <div>
+                <span class="progress-label">
+                    Assessment Progress
+                </span>
+
+                <strong id="progressText">
+                    Question 1 of {{ questions|length }}
+                </strong>
+            </div>
+
+            <div class="progress-percentage">
+                <span id="progressPercent">0%</span>
+            </div>
+
+        </div>
+
+        <div class="progress exam-progress">
+
+            <div
+                id="quizProgress"
+                class="progress-bar"
+                role="progressbar"
+                style="width: 0%;"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         EXAM FORM
+    ========================== -->
+    <form
+        method="POST"
+        action="{{ url_for('submit_exam') }}"
+        id="quizForm"
+        autocomplete="off"
+    >
+
+        {% for q in questions %}
+
+        <div
+            class="question-card {% if not loop.first %}d-none{% endif %}"
+            data-question="{{ loop.index }}"
+        >
+
+            <!-- QUESTION TOP -->
+            <div class="question-top">
+
+                <div class="question-number">
+                    Question {{ loop.index }}
+                </div>
+
+                <span class="question-status">
+                    <i class="bi bi-check-circle"></i>
+                    Unanswered
+                </span>
+
+            </div>
+
+
+            <!-- QUESTION -->
+            <h3 class="question-text">
+                {{ q.question }}
+            </h3>
+
+
+            <!-- OPTIONS -->
+            <div class="options-grid">
+
+                <!-- OPTION A -->
+                <label class="answer-option">
+
+                    <input
+                        type="radio"
+                        name="question_{{ q.id }}"
+                        value="A"
+                    >
+
+                    <span class="option-letter">A</span>
+
+                    <span class="option-text">
+                        {{ q.option_a }}
+                    </span>
+
+                    <span class="option-check">
+                        <i class="bi bi-check"></i>
+                    </span>
+
+                </label>
+
+
+                <!-- OPTION B -->
+                <label class="answer-option">
+
+                    <input
+                        type="radio"
+                        name="question_{{ q.id }}"
+                        value="B"
+                    >
+
+                    <span class="option-letter">B</span>
+
+                    <span class="option-text">
+                        {{ q.option_b }}
+                    </span>
+
+                    <span class="option-check">
+                        <i class="bi bi-check"></i>
+                    </span>
+
+                </label>
+
+
+                <!-- OPTION C -->
+                <label class="answer-option">
+
+                    <input
+                        type="radio"
+                        name="question_{{ q.id }}"
+                        value="C"
+                    >
+
+                    <span class="option-letter">C</span>
+
+                    <span class="option-text">
+                        {{ q.option_c }}
+                    </span>
+
+                    <span class="option-check">
+                        <i class="bi bi-check"></i>
+                    </span>
+
+                </label>
+
+
+                <!-- OPTION D -->
+                <label class="answer-option">
+
+                    <input
+                        type="radio"
+                        name="question_{{ q.id }}"
+                        value="D"
+                    >
+
+                    <span class="option-letter">D</span>
+
+                    <span class="option-text">
+                        {{ q.option_d }}
+                    </span>
+
+                    <span class="option-check">
+                        <i class="bi bi-check"></i>
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <!-- NAVIGATION -->
+            <div class="question-navigation">
+
+                {% if not loop.first %}
+
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary previous-btn"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                    Previous
+                </button>
+
+                {% else %}
+
+                <div></div>
+
+                {% endif %}
+
+
+                <div class="navigation-right">
+
+                    {% if not loop.last %}
+
+                    <button
+                        type="button"
+                        class="btn btn-primary next-btn"
+                    >
+                        Next
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+
+                    {% else %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-success submit-btn"
+                    >
+                        <i class="bi bi-check-circle"></i>
+                        Submit Assessment
+                    </button>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </form>
+
+
+    <!-- =========================
+         EXAM TIPS
+    ========================== -->
+    <div class="exam-tips">
+
+        <div class="tip-icon">
+            <i class="bi bi-lightbulb"></i>
+        </div>
+
+        <div>
+            <strong>Assessment Tips</strong>
+
+            <p>
+                Read each question carefully before selecting your answer.
+                You can move between questions using the navigation buttons.
+                Your assessment will be automatically submitted when the timer reaches zero.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     JINJA DATA
+     Using data attributes prevents VS Code JavaScript errors
+=================================================== -->
+
+<div
+    id="quizConfig"
+    data-total="{{ questions|length }}"
+    data-time-limit="{{ time_limit }}"
+    hidden>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const config = document.getElementById("quizConfig");
+
+    const TOTAL_QUESTIONS = Number(config.dataset.total);
+    const TIME_LIMIT = Number(config.dataset.timeLimit);
+
+    const questions = document.querySelectorAll(".question-card");
+    const progressBar = document.getElementById("quizProgress");
+    const progressText = document.getElementById("progressText");
+    const progressPercent = document.getElementById("progressPercent");
+
+    let currentQuestion = 0;
+
+
+    /* =========================
+       UPDATE PROGRESS
+    ========================== */
+
+    function updateProgress() {
+
+        const current = currentQuestion + 1;
+
+        const percentage =
+            Math.round((current / TOTAL_QUESTIONS) * 100);
+
+        progressBar.style.width = percentage + "%";
+
+        progressText.textContent =
+            "Question " + current + " of " + TOTAL_QUESTIONS;
+
+        progressPercent.textContent =
+            percentage + "%";
+    }
+
+
+    /* =========================
+       SHOW QUESTION
+    ========================== */
+
+    function showQuestion(index) {
+
+        questions.forEach(function (question, i) {
+
+            if (i === index) {
+
+                question.classList.remove("d-none");
+
+            } else {
+
+                question.classList.add("d-none");
+
+            }
+
+        });
+
+        currentQuestion = index;
+
+        updateProgress();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+
+    /* =========================
+       NEXT BUTTON
+    ========================== */
+
+    document.querySelectorAll(".next-btn").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const currentCard =
+                questions[currentQuestion];
+
+            const selected =
+                currentCard.querySelector(
+                    'input[type="radio"]:checked'
+                );
+
+            if (!selected) {
+
+                const proceed =
+                    confirm(
+                        "You haven't selected an answer for this question. Continue anyway?"
+                    );
+
+                if (!proceed) {
+                    return;
+                }
+            }
+
+            if (currentQuestion < TOTAL_QUESTIONS - 1) {
+
+                showQuestion(currentQuestion + 1);
+
+            }
+
+        });
+
+    });
+
+
+    /* =========================
+       PREVIOUS BUTTON
+    ========================== */
+
+    document.querySelectorAll(".previous-btn").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            if (currentQuestion > 0) {
+
+                showQuestion(currentQuestion - 1);
+
+            }
+
+        });
+
+    });
+
+
+    /* =========================
+       ANSWER SELECTION
+    ========================== */
+
+    document.querySelectorAll(
+        '.answer-option input[type="radio"]'
+    ).forEach(function (radio) {
+
+        radio.addEventListener("change", function () {
+
+            const card =
+                radio.closest(".question-card");
+
+            const options =
+                card.querySelectorAll(".answer-option");
+
+            options.forEach(function (option) {
+                option.classList.remove("selected");
+            });
+
+            radio.closest(".answer-option")
+                .classList.add("selected");
+
+
+            const status =
+                card.querySelector(".question-status");
+
+            if (status) {
+
+                status.innerHTML =
+                    '<i class="bi bi-check-circle-fill"></i> Answered';
+
+                status.classList.add("answered");
+
+            }
+
+        });
+
+    });
+
+
+    /* =========================
+       FORM SUBMISSION
+    ========================== */
+
+    const quizForm =
+        document.getElementById("quizForm");
+
+    quizForm.addEventListener("submit", function (event) {
+
+        const unanswered = [];
+
+        questions.forEach(function (card, index) {
+
+            const selected =
+                card.querySelector(
+                    'input[type="radio"]:checked'
+                );
+
+            if (!selected) {
+
+                unanswered.push(index + 1);
+
+            }
+
+        });
+
+
+        if (unanswered.length > 0) {
+
+            const message =
+                "You have not answered question(s): " +
+                unanswered.join(", ") +
+                ".\n\nAre you sure you want to submit?";
+
+            const confirmed = confirm(message);
+
+            if (!confirmed) {
+
+                event.preventDefault();
+
+                return;
+
+            }
+
+        }
+
+
+        const submitButton =
+            quizForm.querySelector(".submit-btn");
+
+        if (submitButton) {
+
+            submitButton.disabled = true;
+
+            submitButton.innerHTML =
+                '<span class="spinner-border spinner-border-sm me-2"></span>' +
+                'Submitting...';
+
+        }
+
+    });
+
+
+    /* =========================
+       INITIALIZE
+    ========================== */
+
+    updateProgress();
+
+});
+</script>
+
+{% endblock %}

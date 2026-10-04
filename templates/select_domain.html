@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}
+Choose Assessment | QuizVerse
+{% endblock %}
+
+{% block content %}
+
+<section class="text-center mb-5">
+
+    <span class="hero-badge">
+        🎯 ASSESSMENT CENTER
+    </span>
+
+    <h1 class="fw-bold mt-3">
+        Choose Your Challenge
+    </h1>
+
+    <p class="text-muted">
+        Select a technical domain and difficulty level.
+    </p>
+
+</section>
+
+
+<div class="assessment-settings mb-5">
+
+    <h5 class="fw-bold text-center mb-4">
+        Select Difficulty
+    </h5>
+
+    <div class="row g-3">
+
+
+        <div class="col-md-4">
+
+            <input
+                type="radio"
+                class="btn-check"
+                name="difficulty"
+                id="easy"
+                value="Easy"
+                checked
+            >
+
+            <label
+                class="difficulty-card"
+                for="easy"
+            >
+
+                <span class="difficulty-icon">
+                    🌱
+                </span>
+
+                <h5>
+                    Easy
+                </h5>
+
+                <p>
+                    Beginner friendly
+                </p>
+
+                <span class="badge bg-success">
+                    10 Minutes
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <input
+                type="radio"
+                class="btn-check"
+                name="difficulty"
+                id="medium"
+                value="Medium"
+            >
+
+            <label
+                class="difficulty-card"
+                for="medium"
+            >
+
+                <span class="difficulty-icon">
+                    ⚡
+                </span>
+
+                <h5>
+                    Medium
+                </h5>
+
+                <p>
+                    Intermediate challenge
+                </p>
+
+                <span class="badge bg-warning text-dark">
+                    12 Minutes
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <input
+                type="radio"
+                class="btn-check"
+                name="difficulty"
+                id="hard"
+                value="Hard"
+            >
+
+            <label
+                class="difficulty-card"
+                for="hard"
+            >
+
+                <span class="difficulty-icon">
+                    🔥
+                </span>
+
+                <h5>
+                    Hard
+                </h5>
+
+                <p>
+                    Advanced challenge
+                </p>
+
+                <span class="badge bg-danger">
+                    15 Minutes
+                </span>
+
+            </label>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="row g-4">
+
+    {% for c in categories %}
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="domain-card">
+
+            <div class="domain-card-icon">
+
+                {% if c.category == "Python" %}
+                    🐍
+                {% elif c.category == "Java" %}
+                    ☕
+                {% elif c.category == "Web" %}
+                    🌐
+                {% elif c.category == "Database" %}
+                    🗄️
+                {% elif c.category == "Aptitude" %}
+                    🧠
+                {% elif c.category == "Data Science" %}
+                    📊
+                {% else %}
+                    📘
+                {% endif %}
+
+            </div>
+
+
+            <h4>
+                {{ c.category }}
+            </h4>
+
+            <p>
+                {{ c.question_count }} questions available
+            </p>
+
+
+            <button
+                class="btn btn-primary w-100"
+                onclick="startQuiz('{{ c.category }}')"
+            >
+                Start Assessment →
+            </button>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="col-12">
+
+        <div class="empty-state">
+
+            <div>
+                📚
+            </div>
+
+            <h4>
+                No domains available
+            </h4>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+
+<script>
+
+function startQuiz(domain) {
+
+    const difficulty =
+        document.querySelector(
+            'input[name="difficulty"]:checked'
+        ).value;
+
+    const url =
+        "{{ url_for('exam') }}" +
+        "?domain=" +
+        encodeURIComponent(domain) +
+        "&difficulty=" +
+        encodeURIComponent(difficulty);
+
+    window.location.href = url;
+}
+
+</script>
+
+{% endblock %}
